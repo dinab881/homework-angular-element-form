@@ -1,0 +1,86 @@
+<div class="col-md-6 col-md-offset-3">
+    <h2>Registration form</h2>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="text" class="form-control" formControlName="email" id="email"/>
+            <div *ngIf="email.invalid && email.touched"
+                 class="col-sm-3 text-danger">
+
+                <div *ngIf="email.errors?.required">
+                    Email field can't be blank
+                </div>
+
+                <div *ngIf="email.errors?.pattern">
+                    The email id doesn't seem right
+                </div>
+
+            </div>
+        </div>
+
+
+        <div formGroupName="password">
+            <div class="form-group">
+                <label for="inputPassword">Password</label>
+                <input type="password" formControlName="pwd"
+                       id="inputPassword"
+                       placeholder="Password">
+            </div>
+
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" formControlName="confirmPwd"
+                       id="confirmPassword"
+                       placeholder="Password">
+            </div>
+
+
+        </div>
+        <div *ngIf="(password.invalid && password.touched)">
+
+            <ng-container *ngIf="password.errors?.mismatch; then first else second">
+            </ng-container>
+            <ng-template #first> Password do not match</ng-template>
+            <ng-template #second>
+                Password needs to be more than 8 characters
+            </ng-template>
+        </div>
+
+
+        <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" class="form-control" name="firstName" formControlName="firstName" id="firstName"/>
+            <!--<div *ngIf="f.submitted && !firstName.valid" class="help-block">First Name is required</div>-->
+        </div>
+
+        <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" class="form-control" name="lastName" formControlName="lastName" id="lastName"/>
+            <!--<div *ngIf="f.submitted && !lastName.valid" class="help-block">Last Name is required</div>-->
+        </div>
+
+
+        <div class="form-group">
+            <label for="select">Gender</label>
+            <select id="select">
+                <option *ngFor="let g of genderList" [value]="g"> {{g}}</option>
+            </select>
+        </div>
+
+
+        <div class="form-group">
+            <button type="submit" [disabled]="registerForm.pristine" class="btn btn-success">Save
+            </button>
+            &nbsp;
+            <button type="button" (click)="revert()"
+                    [disabled]="registerForm.pristine" class="btn btn-danger">Revert
+            </button>
+        </div>
+    </form>
+
+    <p>Form value {{ registerForm.value | json }} </p>
+    <p> Form status {{ registerForm.status | json}} </p>
+</div>
