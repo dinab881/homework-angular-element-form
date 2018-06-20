@@ -8,7 +8,7 @@ import { RegistrationComponent }   from './registration/registration.component';
 
 const appRoutes: Routes = [
     { path: 'register', component: RegistrationComponent },
-    { path: '**', redirectTo: '' }
+   { path: '**', redirectTo: '' }
 ];
 
 @NgModule({

@@ -1,8 +1,8 @@
 /**
  * Created by dina on 19.06.18.
  */
-import {AbstractControl} from '@angular/forms';
-export class PasswordValidation {
+import {FormGroup} from '@angular/forms';
+/*export class PasswordValidation {
 
     static MatchPassword(AC: AbstractControl) {
         const pwd = AC.get('pwd'); // to get value in input tag
@@ -20,4 +20,9 @@ export class PasswordValidation {
             mismatch: true
         };
     }
+}*/
+
+export function PasswordMatchValidator(g: FormGroup) {
+    return g.get('password').value === g.get('confirmPassword').value
+        ? null : {'mismatch': true};
 }

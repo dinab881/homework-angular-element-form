@@ -5,10 +5,11 @@
 
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="text" class="form-control" formControlName="email" id="email"/>
-            <div *ngIf="email.invalid && email.touched"
-                 class="col-sm-3 text-danger">
+            <input type="text" class="form-control" formControlName="email" id="email" required/>
 
+
+            <!-- EMAIL VALIDATION ERRORS -->
+            <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger ml-1">
                 <div *ngIf="email.errors?.required">
                     Email field can't be blank
                 </div>
@@ -16,54 +17,80 @@
                 <div *ngIf="email.errors?.pattern">
                     The email id doesn't seem right
                 </div>
-
             </div>
         </div>
 
 
-        <div formGroupName="password">
+        <div formGroupName="passwordGroup">
+
             <div class="form-group">
-                <label for="inputPassword">Password</label>
-                <input type="password" formControlName="pwd"
-                       id="inputPassword"
-                       placeholder="Password">
+                <label for="password">Password</label>
+                <input type="password" formControlName="password" id="password" class="form-control" required >
+
+                <!-- PASSWORD VALIDATION ERRORS -->
+                <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
+
+                    <div *ngIf="password.errors?.required">
+                        Password field can't be blank
+                    </div>
+
+                    <div *ngIf="password.errors?.minlength">
+                        Minimum length of password is 8 symbols
+                    </div>
+                </div>
             </div>
 
 
             <div class="form-group">
                 <label for="confirmPassword">Confirm Password</label>
-                <input type="password" formControlName="confirmPwd"
-                       id="confirmPassword"
-                       placeholder="Password">
+                <input type="password" formControlName="confirmPassword" id="confirmPassword" class="form-control">
+
+                <!-- CONFIRM PASSWORD VALIDATION ERRORS -->
+                <div *ngIf="(confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)) || (
+                passwordGroup.invalid && (passwordGroup.dirty || passwordGroup.touched)) " class="alert alert-danger">
+
+                    <div *ngIf="confirmPassword.errors?.required">
+                        Password field can't be blank
+                    </div>
+
+                    <div *ngIf="confirmPassword.errors?.minlength">
+                        Minimum length of password is 8 symbols
+                    </div>
+
+                    <div *ngIf="passwordGroup.errors?.mismatch">
+                        Password do not match
+                    </div>
+                </div>
             </div>
 
-
         </div>
-        <div *ngIf="(password.invalid && password.touched)">
 
-            <ng-container *ngIf="password.errors?.mismatch; then first else second">
+
+        <!--<div *ngIf="(passwordGroup.invalid && passwordGroup.touched)">
+
+            <ng-container *ngIf="passwordGroup.errors?.mismatch; then first else second">
             </ng-container>
             <ng-template #first> Password do not match</ng-template>
             <ng-template #second>
                 Password needs to be more than 8 characters
             </ng-template>
-        </div>
+        </div>-->
 
 
-        <div class="form-group">
+        <div class="form-group" *ngIf="showExtended">
             <label for="firstName">First Name</label>
             <input type="text" class="form-control" name="firstName" formControlName="firstName" id="firstName"/>
             <!--<div *ngIf="f.submitted && !firstName.valid" class="help-block">First Name is required</div>-->
         </div>
 
-        <div class="form-group">
+        <div class="form-group" *ngIf="showExtended">
             <label for="lastName">Last Name</label>
             <input type="text" class="form-control" name="lastName" formControlName="lastName" id="lastName"/>
             <!--<div *ngIf="f.submitted && !lastName.valid" class="help-block">Last Name is required</div>-->
         </div>
 
 
-        <div class="form-group">
+        <div class="form-group" *ngIf="showExtended">
             <label for="select">Gender</label>
             <select id="select">
                 <option *ngFor="let g of genderList" [value]="g"> {{g}}</option>
@@ -72,12 +99,9 @@
 
 
         <div class="form-group">
-            <button type="submit" [disabled]="registerForm.pristine" class="btn btn-success">Save
-            </button>
+            <button type="submit" [disabled]="registerForm.pristine" class="btn btn-success">Save</button>
             &nbsp;
-            <button type="button" (click)="revert()"
-                    [disabled]="registerForm.pristine" class="btn btn-danger">Revert
-            </button>
+            <button type="button" (click)="revert()" [disabled]="registerForm.pristine" class="btn btn-danger">Revert</button>
         </div>
     </form>
 
