@@ -9,6 +9,23 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
-  <app-root></app-root>
+<registration-form extended></registration-form>
+<script>
+  const regForm = document.querySelector('registration-form');
+  setTimeout( () => {
+    regForm.removeAttribute('extended');
+    }, 3000
+  );
+
+  regForm.addEventListener('formIsInvalid', (event) => {
+    console.log('invalid');
+    console.log('errors details',event.detail);
+  });
+  regForm.addEventListener('formIsValid', (event) => {
+    console.log('valid');
+
+  })
+</script>
+  <!--<app-root></app-root>-->
 </body>
 </html>

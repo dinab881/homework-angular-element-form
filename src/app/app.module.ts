@@ -1,16 +1,16 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, Injector } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';  // <-- #1 import module
 
 
-import { AppComponent } from './app.component';
+
 import { RegistrationComponent } from './registration/registration.component';
+import {createCustomElement} from '@angular/elements';
 
 
 @NgModule({
   declarations: [
-    AppComponent,
     RegistrationComponent
   ],
   imports: [
@@ -18,7 +18,15 @@ import { RegistrationComponent } from './registration/registration.component';
     AppRoutingModule,
     ReactiveFormsModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  entryComponents: [RegistrationComponent]
+
 })
-export class AppModule { }
+export class AppModule {
+  constructor(private injector: Injector) {
+    const registerElement  = createCustomElement(RegistrationComponent, {injector});
+    customElements.define('registration-form', registerElement);
+ }
+
+ ngDoBootstrap() { }
+
+}
